@@ -21,4 +21,4 @@ jobs:
             "target_url": "${{ github.event.workflow_run.html_url }}",
             "description":"The build succeeded!"
             }' \
-          --fail
+          --fail-with-body 
