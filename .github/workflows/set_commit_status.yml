@@ -16,6 +16,11 @@ jobs:
       - run: echo "github.event.payload.pull_request.html_url > ${{ github.event.payload.pull_request.html_url }}"
       - run: echo "github.event.payload.pull_request.head_commit.id > ${{ github.event.payload.pull_request.head_commit.id }}"
       - run: echo "github.event.payload.pull_request > ${{ github.event.payload.pull_request }}"
+      - run: echo "github.event.pull_request.html_url > ${{ github.event.pull_request.html_url }}"
+      - run: echo "github.event.pull_request.head_commit.id > ${{ github.event.pull_request.head_commit.id }}"
+      - run: echo "toJSON(github.event) > ${{ toJSON(github.event) }}"
+      - run: echo "toJSON(github.event.pull_request) > ${{ toJSON(github.event.pull_request) }}"
+      - run: echo "toJSON(github.event.workflow_run) > ${{ toJSON(github.event.workflow_run) }}"
       - name: Create status
         run: |
           curl --request POST \
