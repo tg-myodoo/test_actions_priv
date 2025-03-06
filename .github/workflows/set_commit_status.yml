@@ -9,10 +9,13 @@ jobs:
     if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
-      - run: echo "github.repository ${{ github.repository }}"
-      - run: echo "github.event.workflow_run.head_commit.id ${{ github.event.workflow_run.head_commit.id }}"
-      - run: echo "secrets.THE_TEST_TOKEN ${{ secrets.THE_TEST_TOKEN }}"
-      - run: echo "github.event.workflow_run.html_url ${{ github.event.workflow_run.html_url }}"
+      - run: echo "github.repository > ${{ github.repository }}"
+      - run: echo "github.event.workflow_run.head_commit.id > ${{ github.event.workflow_run.head_commit.id }}"
+      - run: echo "secrets.THE_TEST_TOKEN > ${{ secrets.THE_TEST_TOKEN }}"
+      - run: echo "github.event.workflow_run.html_url > ${{ github.event.workflow_run.html_url }}"
+      - run: echo "github.event.payload.pull_request.html_url > ${{ github.event.payload.pull_request.html_url }}"
+      - run: echo "github.event.payload.pull_request.head_commit.id > ${{ github.event.payload.pull_request.head_commit.id }}"
+      - run: echo "github.event.payload.pull_request > ${{ github.event.payload.pull_request }}"
       - name: Create status
         run: |
           curl --request POST \
