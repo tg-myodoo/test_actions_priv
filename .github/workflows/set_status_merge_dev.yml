@@ -1,16 +1,19 @@
-name: Set Commit Status on PR Approval
+name: Set Commit Status on PR Merge
 
 on:
-  pull_request_review:
-    types: [submitted]
+  pull_request:
+    types:
+      - closed
 
 jobs:
-  approved:
-    if: github.event.review.state == 'approved'
+  if_merged:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Create log entry
+      - name: Create log entry Event
         run: echo "toJSON(github.event) > ${{ toJSON(github.event) }}"
+      - name: Create log entry PR
+        run: echo "toJSON(github.event.pull_request) > ${{ toJSON(github.event.pull_request) }}"
       - name: Create status
         run: |
           curl --request POST \
@@ -19,8 +22,8 @@ jobs:
           --header 'content-type: application/json' \
           --data '{
             "state": "success",
-            "context":"pull_request_review_approved",
+            "context":"pull_request_dev_merged",
             "target_url": "${{ github.event.pull_request.html_url }}",
-            "description":"The build succeeded!"
+            "description":"The PR on Dev merged!"
             }' \
           --fail-with-body 
