@@ -9,7 +9,7 @@ on:
       - client_stage
 
 jobs:
-  if_merged_to_dev:
+  if_merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
