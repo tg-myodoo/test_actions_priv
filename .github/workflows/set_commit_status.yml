@@ -1,0 +1,35 @@
+name: Set Commit Status on PR Merge
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - dev_stage
+      - client_stage
+
+jobs:
+  if_merged_to_dev:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "github.event.pull_request.statuses_url > ${{ github.event.pull_request.statuses_url }}"
+      - run: echo "github.event.pull_request.html_url > ${{ github.event.pull_request.html_url }}"
+      - run: echo "toJSON(github.event) > ${{ toJSON(github.event) }}"
+      - run: echo "github.ref_name > ${{ github.ref_name }}"
+      - run: echo "GITHUB_REF > ${{ GITHUB_REF }}"
+      - run: echo "GITHUB_HEAD_REF > ${{ GITHUB_HEAD_REF }}"
+      - run: echo "GITHUB_HEAD_REF > $GITHUB_HEAD_REF"
+      - name: Create status
+        run: |
+          curl --request POST \
+          --url ${{ github.event.pull_request.statuses_url }} \
+          --header 'authorization: Bearer ${{ secrets.THE_GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "state": "success",
+            "context":"pull_request_merged_$GITHUB_HEAD_REF",
+            "target_url": "${{ github.event.pull_request.html_url }}",
+            "description":"The PR on Dev merged!"
+            }' \
+          --fail-with-body
