@@ -1,1 +1,1 @@
-print("test6_1")
+print("test6_2")
